@@ -20,7 +20,7 @@ app.listen(port, () => {
 
 const statusMessages = ["made by kozyy","make sure to verify!",".gg/kozyy"];
 let currentIndex = 0;
-const channelId = '';
+const channelId = '1242544641627263026';
 
 async function login() {
   try {
