@@ -18,9 +18,7 @@ app.listen(port, () => {
   console.log(`🔗 Powered By RTX`);
 });
 
-
-const statusMessages = ["@24kozyy On Tiktok","linktr.ee/iamkozyy",".gg/kozyy"];
-
+const statusMessages = ["@24kozyy On Tiktok", "linktr.ee/iamkozyy", ".gg/kozyy"];
 
 let currentIndex = 0;
 const channelId = '';
@@ -35,24 +33,13 @@ async function login() {
   }
 }
 
-function updateStatusAndSendMessages() {
+function updateStatus() {
   const currentStatus = statusMessages[currentIndex];
-  const nextStatus = statusMessages[(currentIndex + 1) % statusMessages.length];
-
+  
   client.user.setPresence({
-    activities: [{ name: currentStatus, type: ActivityType.Custom}],
+    activities: [{ name: currentStatus, type: ActivityType.Custom }],
     status: 'dnd',
   });
-
-  
-  const textChannel = client.channels.cache.get(channelId);
-
-  if (textChannel instanceof TextChannel) {
-   
-    textChannel.send(`Bot status is: ${currentStatus}`);
-  } else {
-
-  }
 
   currentIndex = (currentIndex + 1) % statusMessages.length;
 }
@@ -61,10 +48,10 @@ client.once('ready', () => {
   console.log(`\x1b[36m%s\x1b[0m`, `|    ✅ Bot is ready as ${client.user.tag}`);
   console.log(`\x1b[36m%s\x1b[0m`, `|    ✨HAPPY NEW YEAR MY DEAR FAMILY`);
   console.log(`\x1b[36m%s\x1b[0m`, `|    ❤️WELCOME TO 2024`);
-  updateStatusAndSendMessages();
+  updateStatus();
 
   setInterval(() => {
-    updateStatusAndSendMessages();
+    updateStatus();
   }, 10000);
 });
 
