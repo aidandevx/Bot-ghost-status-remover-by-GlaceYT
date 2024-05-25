@@ -1,21 +1,4 @@
-/**
- ██████╗░████████╗██╗░░██╗           
- ██╔══██╗╚══██╔══╝╚██╗██╔╝          
- ██████╔╝░░░██║░░░░╚███╔╝░          
- ██╔══██╗░░░██║░░░░██╔██╗░          
- ██║░░██║░░░██║░░░██╔╝╚██╗          
- ╚═╝░░╚═╝░░░╚═╝░░░╚═╝░░╚═╝          
-  GIT : https://github.com/RTX-GAMINGG/Bot-ghost-status-remover-by-RTX
-  DISCORD SERVER : https://discord.gg/FUEHs7RCqz
-  YOUTUBE : https://www.youtube.com/channel/UCPbAvYWBgnYhliJa1BIrv0A
- * **********************************************
- *   Code by RTX GAMING
- * **********************************************
- */
-
-
-
-const { Client, GatewayIntentBits, ActivityType, TextChannel } = require('discord.js');
+const { Client, GatewayIntentBits, ActivityType, TextChannel, EmbedBuilder } = require('discord.js');
 require('dotenv').config();
 const express = require('express');
 const fs = require('fs');
@@ -35,10 +18,7 @@ app.listen(port, () => {
   console.log(`🔗 Powered By RTX`);
 });
 
-
 const statusMessages = ["made by kozyy","make sure to verify!",".gg/kozyy"];
-
-
 let currentIndex = 0;
 const channelId = '';
 
@@ -52,22 +32,6 @@ async function login() {
   }
 }
 
-/**
- ██████╗░████████╗██╗░░██╗           
- ██╔══██╗╚══██╔══╝╚██╗██╔╝          
- ██████╔╝░░░██║░░░░╚███╔╝░          
- ██╔══██╗░░░██║░░░░██╔██╗░          
- ██║░░██║░░░██║░░░██╔╝╚██╗          
- ╚═╝░░╚═╝░░░╚═╝░░░╚═╝░░╚═╝          
-GIT : https://github.com/RTX-GAMINGG/Bot-ghost-status-remover-by-RTX
-  DISCORD SERVER : https://discord.gg/FUEHs7RCqz
-  YOUTUBE : https://www.youtube.com/channel/UCPbAvYWBgnYhliJa1BIrv0A
- * **********************************************
- *   Code by RTX GAMING
- * **********************************************
- */
-
-
 function updateStatusAndSendMessages() {
   const currentStatus = statusMessages[currentIndex];
   const nextStatus = statusMessages[(currentIndex + 1) % statusMessages.length];
@@ -77,14 +41,10 @@ function updateStatusAndSendMessages() {
     status: 'dnd',
   });
 
-  
   const textChannel = client.channels.cache.get(channelId);
 
   if (textChannel instanceof TextChannel) {
-   
     textChannel.send(`Bot status is: ${currentStatus}`);
-  } else {
-
   }
 
   currentIndex = (currentIndex + 1) % statusMessages.length;
@@ -101,19 +61,18 @@ client.once('ready', () => {
   }, 10000);
 });
 
-login();
+client.on('guildMemberAdd', member => {
+  const welcomeChannel = member.guild.channels.cache.get(WELCOME_CHANNEL_ID);
+  if (!welcomeChannel) return;
 
-/**
- ██████╗░████████╗██╗░░██╗           
- ██╔══██╗╚══██╔══╝╚██╗██╔╝          
- ██████╔╝░░░██║░░░░╚███╔╝░          
- ██╔══██╗░░░██║░░░░██╔██╗░          
- ██║░░██║░░░██║░░░██╔╝╚██╗          
- ╚═╝░░╚═╝░░░╚═╝░░░╚═╝░░╚═╝          
-GIT : https://github.com/RTX-GAMINGG/Bot-ghost-status-remover-by-RTX
-  DISCORD SERVER : https://discord.gg/FUEHs7RCqz
-  YOUTUBE : https://www.youtube.com/channel/UCPbAvYWBgnYhliJa1BIrv0A
- * **********************************************
- *   Code by RTX GAMING
- * **********************************************
- */
+  const welcomeEmbed = new EmbedBuilder()
+    .setColor('#FF69B4') // Set the color of the embed
+    .setTitle('Welcome To The Server!')
+    .setDescription(`Welcome ${member}! We Are Glad You Joined Us,`)
+    .setThumbnail(member.user.displayAvatarURL({ dynamic: true })) // User's avatar as thumbnail
+    .setFooter({ text: 'KozyyBot 2.0 • Made With ❤️ By kozyy.' });
+
+  welcomeChannel.send({ embeds: [welcomeEmbed] });
+});
+
+login();
