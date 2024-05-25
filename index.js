@@ -36,7 +36,7 @@ app.listen(port, () => {
 });
 
 
-const statusMessages = ["PLAYING","MUSIC"];
+const statusMessages = ["made by kozyy","make sure to verify!",".gg/kozyy"];
 
 
 let currentIndex = 0;
