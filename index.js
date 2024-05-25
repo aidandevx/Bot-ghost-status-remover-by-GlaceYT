@@ -68,7 +68,7 @@ function updateStatusAndSendMessages() {
   const activityType = currentIndex < 2 ? 'LISTENING' : 'LISTENING';
 
   client.user.setPresence({
-    activities: [{ name: `Listening To: ${currentStatus}`, type: ActivityType[activityType] }],
+    activities: [{ name: `${currentStatus}`, type: ActivityType[activityType] }],
     status: 'dnd',
   });
 
