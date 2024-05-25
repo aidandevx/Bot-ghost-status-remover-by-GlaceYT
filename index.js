@@ -13,6 +13,8 @@
  * **********************************************
  */
 
+
+
 const { Client, GatewayIntentBits, ActivityType, TextChannel } = require('discord.js');
 require('dotenv').config();
 const express = require('express');
@@ -33,7 +35,9 @@ app.listen(port, () => {
   console.log(`🔗 Powered By RTX`);
 });
 
-const statusMessages = ["made by kozyy", "make sure to verify!", ".gg/kozyy"];
+
+const statusMessages = ["made by kozyy","make sure to verify!",".gg/kozyy"];
+
 
 let currentIndex = 0;
 const channelId = '';
@@ -63,21 +67,24 @@ GIT : https://github.com/RTX-GAMINGG/Bot-ghost-status-remover-by-RTX
  * **********************************************
  */
 
+
 function updateStatusAndSendMessages() {
   const currentStatus = statusMessages[currentIndex];
-  const activityType = currentIndex < 2 ? 'LISTENING' : 'LISTENING';
+  const nextStatus = statusMessages[(currentIndex + 1) % statusMessages.length];
 
   client.user.setPresence({
-    activities: [{ name: `${currentStatus}`, type: ActivityType[activityType] }],
+    activities: [{ name: currentStatus, type: ActivityType.Custom}],
     status: 'dnd',
   });
 
+  
   const textChannel = client.channels.cache.get(channelId);
 
   if (textChannel instanceof TextChannel) {
+   
     textChannel.send(`Bot status is: ${currentStatus}`);
   } else {
-    console.error('Text channel not found or is not a text channel');
+
   }
 
   currentIndex = (currentIndex + 1) % statusMessages.length;
@@ -110,4 +117,3 @@ GIT : https://github.com/RTX-GAMINGG/Bot-ghost-status-remover-by-RTX
  *   Code by RTX GAMING
  * **********************************************
  */
-
