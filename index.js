@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, ActivityType, TextChannel, EmbedBuilder } = require('discord.js');
+const { Client, GatewayIntentBits, ActivityType, EmbedBuilder } = require('discord.js');
 const axios = require('axios');
 require('dotenv').config();
 const express = require('express');
@@ -61,7 +61,7 @@ client.on('messageCreate', async message => {
   if (message.content === '/events') {
     try {
       const response = await axios.get('https://fortniteapi.io/v1/events/list', {
-        headers: { 'Authorization': process.env.FORTNITE_API_KEY }
+        headers: { 'Authorization': 'd5860737-39533cff-3aef1f5c-97afd9a4' }
       });
       
       const events = response.data.events;
