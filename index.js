@@ -2,8 +2,6 @@ const { Client, GatewayIntentBits, ActivityType, EmbedBuilder } = require('disco
 const axios = require('axios');
 require('dotenv').config();
 const express = require('express');
-const fs = require('fs');
-const path = require('path');
 
 const client = new Client({
   intents: Object.keys(GatewayIntentBits).map((a) => GatewayIntentBits[a]),
@@ -63,17 +61,24 @@ client.on('messageCreate', async message => {
       const response = await axios.get('https://fortniteapi.io/v1/events/list', {
         headers: { 'Authorization': 'd5860737-39533cff-3aef1f5c-97afd9a4' }
       });
-      
+
       const events = response.data.events;
+      console.log(events);  // Log the structure of the API response
+
       if (events && events.length > 0) {
         const embed = new EmbedBuilder()
           .setTitle('Fortnite Events')
           .setColor(0x1E90FF);
 
         events.forEach(event => {
-          embed.addFields(
-            { name: event.name, value: `Start: ${event.beginTime}\nEnd: ${event.endTime}`, inline: false }
-          );
+          // Check if the event has the required properties
+          if (event.name && event.beginTime && event.endTime) {
+            embed.addFields(
+              { name: event.name, value: `Start: ${event.beginTime}\nEnd: ${event.endTime}`, inline: false }
+            );
+          } else {
+            console.error('Invalid event data:', event);  // Log invalid event data
+          }
         });
 
         message.channel.send({ embeds: [embed] });
